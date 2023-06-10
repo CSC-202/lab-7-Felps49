@@ -23,29 +23,43 @@ coding: dict = dict()   # key  -> a letter
 # STEP 0 - TODO
 ## defining our data structures
 class Node: # NOT given to students
-    # TODO
-    
-    def __init__(self):
-        return
+    letter: str
+    left: 'Node'
+    right: 'Node'
+    weight: int
+
+    def __init__(self, letter, weight):
+        self.letter = letter
+        self.left = None
+        self.right = None
+        self.weight = weight
 
 ## defining operations
 ### recursively traverses the huffman tree to record the codes
 def retrieve_codes(v: Node, path: str=''):
     global coding
     if v.letter != None: # if 'TODO': # TODO
-        coding[v.letter] = None # TODO
+        coding[v.letter] = path # TODO
     else:
-        retrieve_codes(None, None) # TODO
-        retrieve_codes(None, None) # TODO
+        retrieve_codes(v.left, path + '0') # TODO
+        retrieve_codes(v.right, path + '1') # TODO
 
 # STEP 1
 ## counting the frequencies - TODO
-
+for letter in message:
+    if letter not in freq.keys():
+        freq[letter] = 1
+    else:
+        freq[letter] += 1
 
 # STEP 2
 ## initialize the nodes - TODO
 nodes = list()
-nodes.append(Node(0, 'a'))
+for letter, weight in freq.items():
+    new_node = Node(letter, weight)
+    nodes.append(new_node)
+
+print([node.weight for node in nodes])
 
 # STEP 3 - TODO
 ## combine each nodes until there's only one item in the nodes list
@@ -60,8 +74,9 @@ while len(nodes) > 1:
     min_b: Node = nodes.pop()
 
     ## combine the two
-    combined: Node = None # TODO
-
+    combined: Node = Node(None, min_a.weight + min_b.weight) # TODO
+    combined.left = min_a
+    combined.right = min_b
     ## put the combined nodes back in the list of nodes
     nodes.append(combined)
 
@@ -69,7 +84,11 @@ while len(nodes) > 1:
 ## reconstruct the codes
 huff_root = nodes[0]
 retrieve_codes(huff_root)
-result: str = str() # TODO (hint coding[letter] -> code)
+result: str = '' # TODO (hint coding[letter] -> code)
+for letter in message:
+    code: str = coding[letter]
+    result = result + code
+len(result)
 
 # STEP 5
 ## analyize compression performance
